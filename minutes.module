@@ -1,0 +1,55 @@
+<?php
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\NodeInterface;
+
+function minutes_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  switch ($form_id) {
+    case "node_minutes_form":
+    case "node_minutes_edit_form":
+      _setup_minutes_entity_builder($form);
+      break;
+    case "node_minutes_delete_form":
+      _setup_minutes_entity_delete_callback($form);
+      break;
+  }
+}
+
+function _setup_minutes_entity_builder(&$form) {
+  $form['title']['#access'] = FALSE;
+  $form['#entity_builders'][] = '_minutes_node_builder';
+}
+
+function _setup_minutes_entity_delete_callback(&$form) {
+  $form['#validate'][] = '_minutes_delete_validation';
+}
+
+function _minutes_node_builder($entity_type, NodeInterface $node, &$form, FormStateInterface $form_state) {
+  // Find the meeting date from the Meeting Node referenced by `field_minutes_meeting`
+  if ($node->field_minutes_meeting->target_id) {
+    $referenced_meeting_node = \Drupal::entityTypeManager()
+      ->getStorage('node')
+      ->load($node->field_minutes_meeting->target_id);
+    $title_of_meeting = 'Minutes for ' . $referenced_meeting_node->getTitle();
+    $node->setTitle($title_of_meeting);
+  } else {
+    $form_state->setErrorByName('field_minutes_meeting', 'Please choose a Meeting that already exists.');
+    $node->setTitle('Error');
+  }
+} // end of minutes_node_builder
+
+function _minutes_delete_validation(&$form, FormStateInterface $form_state) {
+  $minutes_node = $form_state->getFormObject()->getEntity();
+  $minutes_name = $minutes_node->getTitle();
+  $minutes_node_id = $minutes_node->id();
+  // Look for any Meetings referencing these Minutes
+  $query = \Drupal::entityQuery('node')
+    ->condition('type', 'meeting')
+    ->condition('field_meeting_minutes', $minutes_node_id);
+  $nids = $query->execute();
+  $count_nids = count($nids);
+  if ($count_nids > 0) {
+    $msg_stem = ($count_nids == 1) ? 'There is a Meeting that references "' : 'There are '.$count_nids.' Meetings that reference "';
+    $form_state->setError($form, $msg_stem.$minutes_name.'". It cannot be deleted yet.' );
+  }
+}

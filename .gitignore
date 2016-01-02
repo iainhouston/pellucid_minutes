@@ -1,0 +1,8 @@
+# phpstorm ide artifacts
+.idea/
+
+# OS X artifacts
+.DS_Store
+
+# emacs artifacts
+*~

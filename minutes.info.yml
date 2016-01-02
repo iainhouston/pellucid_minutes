@@ -1,0 +1,11 @@
+name: Minutes
+description: 'Provide Minutes content type and related configuration. The <em>Minutes</em> relating to one particular <em>Meeting</em>'
+type: module
+core: 8.x
+dependencies:
+  - menu_ui
+  - minutes
+  - node
+  - text
+  - user
+features: true

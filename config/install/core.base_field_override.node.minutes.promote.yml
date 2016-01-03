@@ -3,6 +3,8 @@ status: true
 dependencies:
   config:
     - node.type.minutes
+_core:
+  default_config_hash: FyoVBSn3EfDBp0dr84Bh3qIXzF5ihJ0JMJJ-ybMHtLA
 id: node.minutes.promote
 field_name: promote
 entity_type: node

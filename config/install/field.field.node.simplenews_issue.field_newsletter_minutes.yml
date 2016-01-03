@@ -1,0 +1,25 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_newsletter_minutes
+    - node.type.minutes
+    - node.type.simplenews_issue
+id: node.simplenews_issue.field_newsletter_minutes
+field_name: field_newsletter_minutes
+entity_type: node
+bundle: simplenews_issue
+label: Minutes
+description: 'Optional field. Help text to be added'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      minutes: minutes
+    sort:
+      field: _none
+field_type: entity_reference

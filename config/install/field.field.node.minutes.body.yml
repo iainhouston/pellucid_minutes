@@ -6,6 +6,8 @@ dependencies:
     - node.type.minutes
   module:
     - text
+_core:
+  default_config_hash: 4PfdOWOAiit9wbkBmBtPWbCQvgDS_7BImviDw6IhjYM
 id: node.minutes.body
 field_name: body
 entity_type: node

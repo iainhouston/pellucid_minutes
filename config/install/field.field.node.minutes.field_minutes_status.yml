@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_minutes_status
+    - node.type.minutes
+    - taxonomy.vocabulary.document_status
+  content:
+    - 'taxonomy_term:document_status:2f43d8df-55c1-4f08-a461-97b01e091012'
+id: node.minutes.field_minutes_status
+field_name: field_minutes_status
+entity_type: node
+bundle: minutes
+label: Status
+description: 'Set to <em>Final</em> when approved by the Officers.'
+required: true
+translatable: false
+default_value:
+  -
+    target_uuid: 2f43d8df-55c1-4f08-a461-97b01e091012
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      document_status: document_status
+    sort:
+      field: _none
+    auto_create: false
+field_type: entity_reference

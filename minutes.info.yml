@@ -3,11 +3,11 @@ description: 'Provide Minutes content type and related configuration. The <em>Mi
 type: module
 core: 8.x
 dependencies:
+  - document
+  - field
   - menu_ui
   - minutes
   - node
   - simplenews
   - taxonomy
   - text
-  - user
-features: true

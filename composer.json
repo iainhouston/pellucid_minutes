@@ -1,0 +1,16 @@
+{
+  "name": "iainhouston/pellucid_minnutes",
+  "description": "Provide Minutes content type and related configuration. The <em>Minutes</em> relating to one particular <em>Meeting</em>",
+  "type": "drupal-module",
+  "license": "GPL-2.0+",
+  "keywords": ["pellucid", "php"],
+  "homepage": "https://iainhouston.com",
+  "minimum-stability": "dev",
+  "authors": [
+    {
+      "name": "Iain Houston",
+      "email": "iainhouston@mac.com"
+    }
+  ],
+  "require": { }
+}

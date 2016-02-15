@@ -2,6 +2,9 @@
   "name": "iainhouston/pellucid_minutes",
   "description": "Provide Minutes content type and related configuration. The <em>Minutes</em> relating to one particular <em>Meeting</em>",
   "type": "drupal-module",
+   "extra": {
+        "installer-name": "minutes"
+    },
   "license": "GPL-2.0+",
   "keywords": ["pellucid", "php"],
   "homepage": "https://iainhouston.com",

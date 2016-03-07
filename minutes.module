@@ -6,8 +6,10 @@ use Drupal\node\NodeInterface;
 function minutes_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   switch ($form_id) {
     case "node_minutes_form":
-    case "node_minutes_edit_form":
       _setup_minutes_entity_builder($form);
+      break;
+    case "node_minutes_edit_form":
+      _hide_immutable_minutes_fields($form);
       break;
     case "node_minutes_delete_form":
       _setup_minutes_entity_delete_callback($form);
@@ -22,6 +24,12 @@ function _setup_minutes_entity_builder(&$form) {
 
 function _setup_minutes_entity_delete_callback(&$form) {
   $form['#validate'][] = '_minutes_delete_validation';
+}
+
+function _hide_immutable_minutes_fields(&$form) {
+// These form the title .. and it's too late to change it now!
+  $form['title']['#access'] = FALSE;
+  $form['field_minutes_meeting']['#access'] = FALSE;
 }
 
 function _minutes_node_builder($entity_type, NodeInterface $node, &$form, FormStateInterface $form_state) {

@@ -9,7 +9,7 @@ function minutes_form_alter(&$form, FormStateInterface $form_state, $form_id) {
       _setup_minutes_entity_builder($form);
       break;
     case "node_minutes_edit_form":
-      _hide_immutable_minutes_fields($form);
+      _hide_immutable_minutes_fields($form, $form_state);
       break;
     case "node_minutes_delete_form":
       _setup_minutes_entity_delete_callback($form);
@@ -26,10 +26,21 @@ function _setup_minutes_entity_delete_callback(&$form) {
   $form['#validate'][] = '_minutes_delete_validation';
 }
 
-function _hide_immutable_minutes_fields(&$form) {
+function _hide_immutable_minutes_fields(&$form, $form_state) {
 // These form the title .. and it's too late to change it now!
   $form['title']['#access'] = FALSE;
   $form['field_minutes_meeting']['#access'] = FALSE;
+  // Hide the Minutes text field unless in Draft Status
+  $minutes_node = $form_state->getFormObject()->getEntity();
+  $minutes_status_id = $minutes_node->field_minutes_status->target_id;
+  $referenced_tag = \Drupal::entityTypeManager()
+    ->getStorage('taxonomy_term')
+    ->load($minutes_status_id);
+  $minutes_status = $referenced_tag->name->value;
+  if ($minutes_status != 'Draft') {
+    // We'll prevent agenda text edits unless in Draft status
+    $form['body']['#access'] = FALSE;
+  }
 }
 
 function _minutes_node_builder($entity_type, NodeInterface $node, &$form, FormStateInterface $form_state) {

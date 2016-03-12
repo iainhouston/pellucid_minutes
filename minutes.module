@@ -68,7 +68,16 @@ function _minutes_delete_validation(&$form, FormStateInterface $form_state) {
   $nids = $query->execute();
   $count_nids = count($nids);
   if ($count_nids > 0) {
-    $msg_stem = ($count_nids == 1) ? 'There is a Meeting that references "' : 'There are '.$count_nids.' Meetings that reference "';
-    $form_state->setError($form, $msg_stem.$minutes_name.'". It cannot be deleted yet.' );
+    $msg_stem = ($count_nids == 1) ? 'There is a Meeting that references "' : 'There are ' . $count_nids . ' Meetings that reference "';
+    $form_state->setError($form, $msg_stem . $minutes_name . '". It cannot be deleted yet.');
+  }
+  $minutes_status_id = $minutes_node->field_minutes_status->target_id;
+  $referenced_tag = \Drupal::entityTypeManager()
+    ->getStorage('taxonomy_term')
+    ->load($minutes_status_id);
+  $minutes_status = $referenced_tag->name->value;
+  if ($minutes_status != 'Draft') {
+    // We'll prevent deleting Minutes unless in Draft status
+    $form_state->setError($form, 'Please change the Minutes "Document status  to "Draft"  before attempting to delete.');
   }
 }

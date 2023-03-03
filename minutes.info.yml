@@ -1,14 +1,7 @@
 name: Minutes
 description: 'Provide Minutes content type and related configuration. The <em>Minutes</em> relating to one particular <em>Meeting</em>'
 type: module
-core: 8.x
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^9 || ^10
 dependencies:
-  - document
-  - field
-  - menu_ui
-  - minutes
-  - node
-  - simplenews
-  - taxonomy
-  - text
+  - drupal:node
+  - drupal:simplenews

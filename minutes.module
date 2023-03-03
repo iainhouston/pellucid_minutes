@@ -63,6 +63,7 @@ function _minutes_delete_validation(&$form, FormStateInterface $form_state) {
   $minutes_node_id = $minutes_node->id();
   // Look for any Meetings referencing these Minutes
   $query = \Drupal::entityQuery('node')
+    ->accessCheck(TRUE)
     ->condition('type', 'meeting')
     ->condition('field_meeting_minutes', $minutes_node_id);
   $nids = $query->execute();
